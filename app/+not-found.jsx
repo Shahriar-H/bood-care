@@ -1,10 +1,21 @@
-import { Link, Stack } from 'expo-router';
+import { Link, Stack, useRouter } from 'expo-router';
 import { StyleSheet } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useIsFocused, useRoute } from '@react-navigation/native';
+import { useEffect } from 'react';
 
 export default function NotFoundScreen() {
+  const route = useRoute();
+  const router = useRouter()
+  const nonprotectedRoute = {login:true,signup:true}
+  const focused = useIsFocused()
+  useEffect(() => {
+    if(nonprotectedRoute[route.name]){
+      router.push("/")
+    }
+  }, [focused]);
   return (
     <>
       <Stack.Screen options={{ title: 'Oops!' }} />
