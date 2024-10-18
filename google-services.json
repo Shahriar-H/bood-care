@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "902394840465",
+    "project_id": "poribar-aeabf",
+    "storage_bucket": "poribar-aeabf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902394840465:android:a136b364c72b90b4530630",
+        "android_client_info": {
+          "package_name": "com.poribar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTc7f4iZ2G_L32HmMQGTRxvrt0Y9O7xb0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902394840465:android:ec949508884ff2d8530630",
+        "android_client_info": {
+          "package_name": "com.shahriarh.myapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTc7f4iZ2G_L32HmMQGTRxvrt0Y9O7xb0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

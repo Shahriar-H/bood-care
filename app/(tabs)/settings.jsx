@@ -40,10 +40,13 @@ const SettingsScreen = () => {
     AsyncStorage.removeItem('intro')
     router.push("/login")
   }
+  const routHandle = (path)=>{
+    router.push(path)
+  }
   return (
     <ScrollView className="flex-1 bg-white">
       <View className="flex-row items-center justify-between my-20 px-4">
-        <TouchableOpacity onPress={()=>router.back()}>
+        <TouchableOpacity onPress={()=>router.push("/profile")}>
           <FontAwesome name="chevron-left" size={22} color="black" />
         </TouchableOpacity>
         <Text className="text-lg font-bold">Settings</Text>
@@ -52,13 +55,13 @@ const SettingsScreen = () => {
      
 
       {/* Setting Items */}
-      <SettingItem label="Language" iconColor="red" name={'language'} />
-      <SettingItem label="Country" iconColor="blue" name={'flag'} />
+      {/* <SettingItem label="Language" iconColor="red" name={'language'} />
+      <SettingItem label="Country" iconColor="blue" name={'flag'} /> */}
       
      
-      <SettingItem label="Privacy Policy" iconColor="pink" name={'shield'} />
+      <SettingItem label="Privacy Policy" iconColor="pink" name={'shield'} clickevent={()=>routHandle("/privacypolicy")} />
      
-      <SettingItem label="Share App" iconColor="gray" name={'share'} />
+      {/* <SettingItem label="Share App" iconColor="gray" name={'share'} /> */}
       <SettingItem label="Delete Account" iconColor="green" name={'trash'} />
       <SettingItem label="Logout" iconColor="red" name={'times'} clickevent={logouthandle} />
     </ScrollView>

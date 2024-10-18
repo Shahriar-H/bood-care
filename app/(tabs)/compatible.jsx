@@ -1,8 +1,10 @@
 import { FontAwesome } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 
 const CompatibilityTable = () => {
+  const router = useRouter()
   const data = [
     { bloodType: 'A+', canGive: 'A+, AB+', canReceive: 'A+, A-, O+, O-' },
     { bloodType: 'A-', canGive: 'A+, A-, AB+, AB-', canReceive: 'A-, O-' },
@@ -17,7 +19,7 @@ const CompatibilityTable = () => {
   return (
     <ScrollView className="bg-white p-4">
       <View className="flex-row items-center justify-between my-20">
-        <TouchableOpacity onPress={()=>router.back()}>
+        <TouchableOpacity onPress={()=>router.push("/profile")}>
           <FontAwesome name="chevron-left" size={22} color="black" />
         </TouchableOpacity>
         <Text className="text-lg font-bold">Compatibility</Text>

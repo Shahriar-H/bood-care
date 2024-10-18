@@ -185,6 +185,105 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="request-form-edit"
+        options={{
+          title: 'Request Form Edit',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+          ),
+          tabBarItemStyle:{display:'none'},
+          tabBarStyle: { display: 'none' }, 
+        }}
+      />
+      <Tabs.Screen
+        name="donate"
+        options={{
+          title: 'Donate',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+          ),
+          tabBarItemStyle:{display:'none'},
+          tabBarStyle: { display: 'none' }, 
+        }}
+      />
+      <Tabs.Screen
+        name="privacypolicy"
+        options={{
+          title: 'privacy',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+          ),
+          tabBarItemStyle:{display:'none'},
+          tabBarStyle: { display: 'none' }, 
+        }}
+      />
+      <Tabs.Screen
+        name="faq"
+        options={{
+          title: 'FAQ',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+          ),
+          tabBarItemStyle:{display:'none'},
+          tabBarStyle: { display: 'none' }, 
+        }}
+      />
+      <Tabs.Screen
+        name="volunteer"
+        options={{
+          title: 'Volunteer',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+          ),
+          tabBarItemStyle:{display:'none'},
+          tabBarStyle: { display: 'none' }, 
+        }}
+      />
+      <Tabs.Screen
+        name="blog"
+        options={{
+          title: 'blog',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+          ),
+          tabBarItemStyle:{display:'none'},
+          tabBarStyle: { display: 'none' }, 
+        }}
+      />
+      <Tabs.Screen
+        name="blogfull"
+        options={{
+          title: 'blogfull',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+          ),
+          tabBarItemStyle:{display:'none'},
+          tabBarStyle: { display: 'none' }, 
+        }}
+      />
+      <Tabs.Screen
+        name="ambulance"
+        options={{
+          title: 'Ambulance',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+          ),
+          tabBarItemStyle:{display:'none'},
+          tabBarStyle: { display: 'none' }, 
+        }}
+      />
+      <Tabs.Screen
+        name="notification"
+        options={{
+          title: 'notification',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+          ),
+          tabBarItemStyle:{display:'none'},
+          tabBarStyle: { display: 'none' }, 
+        }}
+      />
+      <Tabs.Screen
         name="donate-form"
         options={{
           title: 'Donate Form',

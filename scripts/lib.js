@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const api_url = 'http://192.168.0.109:4430'
+export const api_url = 'http://192.168.0.110:4430'
 export const post_option = {
     method:"POST",
     headers:{
@@ -18,3 +18,12 @@ export const getDataFromLocalstorage = async (objname) => {
       
     }
   };
+
+export const daysCount = (fdate)=>{
+  var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+  var firstDate = new Date(fdate);
+  var secondDate = new Date();
+  
+  var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+  return diffDays
+}

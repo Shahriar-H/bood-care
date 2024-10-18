@@ -19,9 +19,12 @@ export default function Signup() {
 
   const storeIntroData = async (value) => {
     try {
-      await AsyncStorage.setItem('user', JSON.stringify(value));
+      const jsonvalue = JSON.stringify(value);
+      await AsyncStorage.setItem('user', jsonvalue);
     } catch (e) {
       // saving error
+      console.log(e);
+      
     }
   };
 

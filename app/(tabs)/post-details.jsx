@@ -9,17 +9,22 @@ const PostDetails = () => {
     const router = useRouter()
     const navigation = useNavigation()
     const params = useRoute()
+    const d = useLocalSearchParams()
     const focused = useIsFocused()
     const [requestblooddata, setrequestblooddata] = useState({});
     useEffect(() => {
-      console.log(params);
-      setrequestblooddata(params?.params)
+      console.log('jj',d?.backroute);
+      if(!params?.params?.bg){
+        router.push("/profile")
+      }
+      
+      setrequestblooddata({...params?.params})
     }, [focused]);
   return (
     <ScrollView className="bg-white p-4">
       {/* Header */}
       <View className="flex-row items-center justify-between my-8">
-        <TouchableOpacity onPress={()=>navigation.goBack()}>
+        <TouchableOpacity onPress={()=>router.push(d?.backroute??"/")}>
           <FontAwesome name="chevron-left" size={22} color="black" />
         </TouchableOpacity>
         <Text className="text-lg font-bold">Post Details</Text>
@@ -78,12 +83,19 @@ const PostDetails = () => {
           </View>
           <Text className="font-semibold">{requestblooddata?.hospital}</Text>
         </View>
-        <View className="flex-row justify-between items-center">
+        <View className="flex-row hidden justify-between items-center mb-4">
           <View className="flex-row items-center">
             <FontAwesome name="calendar-times-o" size={24} color="#f87171" />
             <Text className="ml-4 text-gray-600">Posted @</Text>
           </View>
-          <Text className="font-semibold">{moment(requestblooddata?.created_at).format("lll")}</Text>
+          <Text className="font-semibold">{moment(new Date(requestblooddata?.created_at)).format("lll")}</Text>
+        </View>
+        <View className="flex-row justify-between items-center">
+          <View className="flex-row items-center">
+            <FontAwesome name="calendar-o" size={24} color="#f87171" />
+            <Text className="ml-4 text-gray-600">Needed @</Text>
+          </View>
+          <Text className="font-semibold">{moment(new Date(requestblooddata?.requestDate)).format("lll")}</Text>
         </View>
       </View>
 
@@ -99,7 +111,7 @@ const PostDetails = () => {
       <View className="bg-gray-100 p-4 rounded-lg mb-6">
         <Text className="text-gray-500">
           If you're interested to donate blood, please contact with the person.
-          <Text className="text-blue-500"> View Profile</Text>
+          <Link href={"/profile-details?user_id="+requestblooddata?.user_id+"&&post_id="+JSON.stringify(requestblooddata)} className="text-blue-500"> View Profile</Link>
         </Text>
       </View>
 

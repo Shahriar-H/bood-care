@@ -38,24 +38,26 @@ const ProfileHeader = () => {
 
 const MoreScreen = () => {
   const router = useRouter()
+  const {data} = useContext(AuthProvider)
   const pressEnvent = (path)=>{
     router.push(path)
   }
   return (
     <ScrollView className="flex-1 bg-white">
       <ProfileHeader />
+      <MenuItem label="My Profile" name='user' clickevent={()=>pressEnvent('profile-details?user_id='+data?._id+"&&backroute=profile")} />
       <MenuItem label="Create Request Blood" name='hand-paper-o' clickevent={()=>pressEnvent('request-form')} />
       <MenuItem label="Create Donor Blood" name={'file-word-o'} clickevent={()=>pressEnvent('donate-form')}/>
-      <MenuItem label="Blood Donation Organization" name={'blind'} />
-      <MenuItem label="Ambulance" name={'ambulance'} />
+      <MenuItem label="Blood Donation Organization" name={'blind'} clickevent={()=>pressEnvent('organizations')} />
+      <MenuItem label="Ambulance" name={'ambulance'} clickevent={()=>pressEnvent('ambulance')} />
      
-      <MenuItem label="Work as Volunteer"  name={'venus-double'}/>
+      <MenuItem label="Work as Volunteer"  name={'venus-double'} clickevent={()=>pressEnvent('volunteer')}/>
     
-      <MenuItem label="FAQ" name={'question'} />
-      <MenuItem label="Blog" name={'building-o'} clickevent={()=>pressEnvent('login')} />
+      <MenuItem label="FAQ" name={'question'} clickevent={()=>pressEnvent('faq')} />
+      <MenuItem label="Blog" name={'building-o'} clickevent={()=>pressEnvent('blog')} />
       <MenuItem label="Settings" name={'gear'} clickevent={()=>pressEnvent('settings')} />
-      <MenuItem label="Compatibility" name={'compass'} />
-      <MenuItem label="Donate Us" name={'hand-lizard-o'} />
+      <MenuItem label="Compatibility" name={'compass'} clickevent={()=>pressEnvent('compatible')} />
+      <MenuItem label="Donate Us" name={'hand-lizard-o'} clickevent={()=>pressEnvent('donate')} />
     </ScrollView>
   );
 };

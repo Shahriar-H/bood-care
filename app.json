@@ -20,7 +20,9 @@
         "foregroundImage": "./assets/images/main-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "googleServicesFile": "./google-services.json",
       "package": "com.shahriarh.myapp"
+      
     },
     "web": {
       "bundler": "metro",

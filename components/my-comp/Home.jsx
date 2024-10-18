@@ -1,14 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { ScrollView, Text, View, Image, TextInput, TouchableOpacity, ActivityIndicator, Pressable, ToastAndroid, Alert } from 'react-native';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { ScrollView, Text, View, Image, TextInput, TouchableOpacity, ActivityIndicator, Pressable, ToastAndroid, Alert, Button, RefreshControl } from 'react-native';
 import { Feather, FontAwesome } from '@expo/vector-icons'; // For icons
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthProvider } from '@/app/_layout';
 import {useGetitems} from "../../hooks/useGetitem"
 import NoData from "../my-comp/Nodata"
+import PullToRefreshWithScrollView from "../my-comp/Pull-refressh"
 import { useRouter } from 'expo-router';
 import moment from 'moment';
 import { api_url } from '@/scripts/lib';
-import Notification1 from "../my-comp/Pushnotification"
+// import Notification1 from "../my-comp/Pushnotification"
+import notifee from '@notifee/react-native';
+import io from 'socket.io-client';
+import { useIsFocused } from '@react-navigation/native';
+
+// The URL of your Socket.IO server (use your local or deployed server's IP address or domain)
+const SOCKET_SERVER_URL = api_url;
 
 
 
@@ -19,7 +26,68 @@ const MainHome = () => {
     const [requestedData, setrequestedData ] = useState([]);
     const [isLoading, setisLoading] = useState(false);
     const [iwanttodonate, setiwanttodonate] = useState(data?.donateBlood);
+    const [notificationm, setnotificationm] = useState('');
+    const focused = useIsFocused()
+    const [refreshing, setRefreshing] = useState(false);
+    const [blogs, setblogs] = useState([]);
+    const [countInfo, setcountInfo] = useState({
+        donatepost:0,
+        requestpost:0
+    });
 
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setisLoading(true)
+        getdata({query:{},limit:10,table:"blood_requests"}).then((res)=>{
+            console.log(res[0]);
+            setrequestedData(res)
+            setisLoading(false)
+        })
+        // Simulate a network request or data update
+        setTimeout(() => {
+            setRefreshing(false); // stop the spinner after 2 seconds
+        }, 2000);
+    }, []);
+
+    //handle Socket here
+    useEffect(() => {
+        // Connect to the Socket.IO server
+        const newSocket = io(SOCKET_SERVER_URL);
+        // setSocket(newSocket);
+
+        // Listen for replies from the server
+        newSocket.on('Notification', (data) => {
+            console.log("Socket- ",data); 
+            setnotificationm(data)
+            onDisplayNotification(data)
+
+        });
+
+        // Cleanup when the component unmounts
+        return () => newSocket.disconnect();
+    }, []);
+
+    //when click on the notificstion
+    // Bootstrap sequence function
+    async function bootstrap() {
+        const initialNotification = await notifee.getInitialNotification();
+
+        if (initialNotification) {
+        console.log('Notification caused application to open', initialNotification.notification);
+        console.log('Press action used to open the app', initialNotification.pressAction);
+        }
+    }
+    //handle background of notifee
+    notifee.onBackgroundEvent(async ({ type, detail })=>{
+        console.log('Background Called',type,detail);
+        router.push("/requested")
+    })
+
+    useEffect(() => {
+        bootstrap()
+        .then(() => setisLoading(false))
+        .catch(console.error);
+    }, []);
     const storeIntroData = async (value) => {
         try {
             const jsonValue = JSON.stringify({...value});
@@ -30,7 +98,40 @@ const MainHome = () => {
           
         }
     };
+
+    const getinfo = ()=>{
+        getdata({query:{},limit:10,table:"blogs"})
+        .then((res)=>{
+            setblogs(res)
+            
+            
+        })
+    }
+
+    const calculateinfo = ()=>{
+        getdata({query:{},limit:0,table:"blood_requests"})
+        .then((res)=>{
+            let donnatePost=0;
+            let requestPost=0;
+            res.map((item)=>{
+                if(item?.donate){
+                    donnatePost++
+                }else{
+                    requestPost++
+                }
+            })
+            setcountInfo({
+                donatepost:donnatePost,
+                requestpost:requestPost
+            })
+            
+            
+            
+        })
+    }
     useEffect(() => {
+        getinfo()
+        calculateinfo()
         setisLoading(true)
         getdata({query:{},table:"blood_requests"}).then((res)=>{
             console.log(res);
@@ -38,7 +139,7 @@ const MainHome = () => {
             setisLoading(false)
         })
         
-    }, []);
+    }, [focused]);
 
     const profileHandle = ()=>{
 
@@ -75,13 +176,55 @@ const MainHome = () => {
           
         }
       }
+
+      async function onDisplayNotification(message='') {
+        try {
+            // Request permissions (required for iOS)
+            // await notifee.requestPermission()
+        
+            // Create a channel (required for Android)
+            const channelId = await notifee.createChannel({
+            id: 'default',
+            name: 'Default Channel',
+            });
+        
+            // Display a notification
+            await notifee.displayNotification({
+            title: 'Blood Care',
+            body: message,
+            android: {
+                channelId,
+                //smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
+                // pressAction is needed if you want the notification to open the app when pressed
+                pressAction: {
+                id: 'default',
+                },
+            },
+            });
+        } catch (error) {
+            console.log(error);
+            
+        }
+        
+      }
   return (<>
     
-    <ScrollView className="bg-white">
+    <ScrollView className="bg-white" 
+        refreshControl={
+            <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                tintColor="blue" // iOS spinner color
+                colors={['blue', 'green', 'red']} // Android spinner colors
+            />
+        }
+    >
+        
       {/* Header */}
       <View className="absolute h-[200px] w-full top-0 left-0 bg-[#FFF6EE]">
         <Text className="absolute text-[400px] -top-[350px] -right-[100] text-white">O</Text>
       </View>
+     
       <View className="p-4">
         <View className="flex-row items-center justify-between py-10">
             <View className="flex-row items-center">
@@ -105,9 +248,12 @@ const MainHome = () => {
                 </TouchableOpacity>
             </View>
             </View>
+            
+            <TouchableOpacity onPress={()=>router.push("/notification")}>
             <Feather name="bell" size={24} color="black" />
+            </TouchableOpacity>
         </View>
-
+        {/* <Button title="Display Notification" onPress={() => onDisplayNotification()} /> */}
         {/* Search Bar */}
         <TouchableOpacity onPress={()=>router.push("/requested")} className="">
             <View
@@ -130,7 +276,7 @@ const MainHome = () => {
             </View>
         </View>
 
-        <Notification1/>
+        {/* <Notification1/> */}
 
         {/* Activity Section */}
         <View className="mt-6">
@@ -139,31 +285,31 @@ const MainHome = () => {
             <TouchableOpacity className="bg-gray-50 p-3 rounded-lg flex-row items-center space-x-3 shadow-md w-[48%] border border-gray-300">
                 <FontAwesome name="hospital-o" size={44} color="red" />
                 <View>
-                    <Text className="text-red-500 font-semibold">Blood Donor</Text>
-                    <Text className="text-sm">12 post</Text>
+                    <Text className="text-red-500 font-semibold">To Donate</Text>
+                    <Text className="text-sm">{countInfo?.donatepost} post</Text>
                 </View>
             </TouchableOpacity>
             <TouchableOpacity className="bg-gray-50 p-3 rounded-lg flex-row items-center space-x-3 shadow-md w-[48%] border border-gray-300">
                 <FontAwesome name="recycle" size={40} color="red" />
                 <View>
-                    <Text className="text-red-500 font-semibold">Blood Recipient</Text>
-                    <Text className="text-sm">12 post</Text>
+                    <Text className="text-red-500 font-semibold">To Receive</Text>
+                    <Text className="text-sm">{countInfo?.requestpost} post</Text>
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity className="bg-gray-50 p-3 rounded-lg flex-row items-center space-x-3 shadow-md w-[48%] border border-gray-300 mt-4">
+            <TouchableOpacity onPress={()=>router.push('/request-form')} className="bg-gray-50 p-3 rounded-lg flex-row items-center space-x-3 shadow-md w-[48%] border border-gray-300 mt-4">
                 <FontAwesome name="podcast" size={40} color="red" />
                 <View>
                     <Text className="text-red-500 font-semibold">Create Post</Text>
-                    <Text className="text-sm">It's Easy 3 Step</Text>
+                    <Text className="text-sm">It's Easy 1 Step</Text>
                 </View>
             </TouchableOpacity>
            
             
-            <TouchableOpacity className="bg-gray-50 p-3 rounded-lg flex-row items-center space-x-3 shadow-md w-[48%] border border-gray-300 mt-4">
+            <TouchableOpacity onPress={()=>router.push('/donate-form')} className="bg-gray-50 p-3 rounded-lg flex-row items-center space-x-3 shadow-md w-[48%] border border-gray-300 mt-4">
                 <FontAwesome name="gift" size={40} color="red" />
                 <View>
-                    <Text className="text-red-500 font-semibold">Blood Given</Text>
+                    <Text className="text-red-500 font-semibold">Blood Donate</Text>
                     <Text className="text-sm">It's Easy 1 Step</Text>
                 </View>
             </TouchableOpacity>
@@ -194,7 +340,7 @@ const MainHome = () => {
             requestedData.map((item,index)=>{
                 if(index<=10){
                 return <TouchableOpacity 
-                onPress={() => router.push({ pathname: "/post-details", params: item })} 
+                onPress={() => router.push({ pathname: "/post-details", params: {...item} })} 
                 key={index} 
                 className="bg-gray-50 flex-row space-x-3 border border-gray-300 p-4 rounded-lg shadow-md mb-4">
                 <View className="w-[60px] bg-red-50 overflow-hidden h-[60px] border-2 border-red-500 flex-row rounded-full shadow-md items-center justify-center">
@@ -218,16 +364,16 @@ const MainHome = () => {
             <Text className="text-lg font-semibold">Our Contribution</Text>
             <View className="flex-row justify-between mt-4">
             <View className="w-[30%] bg-red-100 p-1 py-6 rounded-lg items-center">
-                <Text className="text-red-500 font-semibold">1K+</Text>
+                <Text className="text-red-500 font-semibold">Find</Text>
                 <Text className="text-sm">Blood Donor</Text>
             </View>
             <View className="w-[30%] bg-green-100 p-1 py-6 rounded-lg items-center">
-                <Text className="text-green-500 font-semibold">20</Text>
-                <Text className="text-sm">Post everyday</Text>
+                <Text className="text-green-500 font-semibold">Help</Text>
+                <Text className="text-sm">to get blood</Text>
             </View>
             <View className="w-[30%] bg-blue-100 p-1 py-6 rounded-lg items-center">
-                <Text className="text-blue-500 font-semibold">20</Text>
-                <Text className="text-sm">Post everyday</Text>
+                <Text className="text-blue-500 font-semibold">Free</Text>
+                <Text className="text-sm">to Receive  </Text>
             </View>
             </View>
         </View>
@@ -236,15 +382,15 @@ const MainHome = () => {
         <View className="mt-6">
             <Text className="text-lg font-semibold">Recent Post</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-4">
-            {['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTardcKgEVE-N-mq7NhQhs3HPWdHlMQNnW3Jc75QRG--z8ilTk2P699__-2xCZKSev0wlE&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTardcKgEVE-N-mq7NhQhs3HPWdHlMQNnW3Jc75QRG--z8ilTk2P699__-2xCZKSev0wlE&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTardcKgEVE-N-mq7NhQhs3HPWdHlMQNnW3Jc75QRG--z8ilTk2P699__-2xCZKSev0wlE&usqp=CAU'].map((img, idx) => (
-                <View key={idx} className="bg-gray-50 w-36 p-1 mr-2 border border-gray-300 rounded-md">
+            {blogs&&blogs.length>0&&blogs.map((item, idx) => (
+                <TouchableOpacity onPress={()=>router.push({pathname:"/blogfull", params:{...item}})} key={idx}  className="bg-gray-50 w-36 p-1 mr-2 border border-gray-300 rounded-md">
                     <Image
                     
-                    source={{ uri: img }}
+                    source={{ uri: item?.cover }}
                     className="w-full h-24 rounded-lg mr-4"
                     />
-                    <Text>Hello blog Title</Text>
-                </View>
+                    <Text>{item?.title.substr(0,20)}</Text>
+                </TouchableOpacity>
             ))}
             </ScrollView>
         </View>

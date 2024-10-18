@@ -11,7 +11,7 @@ const CreateRequestForm = () => {
   const {data} = useContext(AuthProvider)
   const [selectedBloodGroup, setSelectedBloodGroup] = useState('');
   const [requestDate, setRequestDate] = useState(new Date());
-  const {responsedata,getdata} = useAdditem()
+  const {responsedata,insertdata} = useAdditem()
   const [showDatePicker, setShowDatePicker] = useState(false);
   const router = useRouter()
   const [allDistricts, setallDistricts] = useState([]);
@@ -27,6 +27,8 @@ const CreateRequestForm = () => {
     mobile: data?.mobile,
     district: data?.district,
     city: '',
+    requested_by:data,
+    user_id:data?._id
   });
 
   const onDateChange = (event, selectedDate) => {
@@ -48,7 +50,7 @@ const CreateRequestForm = () => {
       return 0;
     }
     setisLoading(true)
-    getdata({
+    insertdata({
       data:{...formData,
       bg:selectedBloodGroup,
       requestDate:requestDate,
@@ -67,6 +69,8 @@ const CreateRequestForm = () => {
           mobile: data?.mobile,
           district: data?.district,
           city: '',
+          requested_by:data,
+          user_id:data?._id
         })
         return ToastAndroid.show("Success",ToastAndroid.SHORT)
       }

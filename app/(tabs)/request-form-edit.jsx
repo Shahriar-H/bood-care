@@ -3,31 +3,35 @@ import { View, Text, TextInput, TouchableOpacity, Button, Platform, ScrollView, 
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { FontAwesome } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAdditem } from '../../hooks/useAdditem';
 import { AuthProvider } from '../_layout';
+import { useGetitems } from '../../hooks/useGetitem';
+import { useUpdateitem } from '../../hooks/useUpdateitem';
 
 const CreateRequestForm = () => {
   const {data} = useContext(AuthProvider)
-  const [selectedBloodGroup, setSelectedBloodGroup] = useState(data?.bloodGroup);
+  const [selectedBloodGroup, setSelectedBloodGroup] = useState('');
   const [requestDate, setRequestDate] = useState(new Date());
-  const {responsedata,insertdata} = useAdditem()
+  const {responsedata,updateitem} = useUpdateitem()
   const [showDatePicker, setShowDatePicker] = useState(false);
   const router = useRouter()
   const [allDistricts, setallDistricts] = useState([]);
   const [district, setdistrict] = useState(data?.district);
   const [isLoading, setisLoading] = useState(false);
+  const {responsedata:responsGet,getdata} = useGetitems()
+  const params = useLocalSearchParams()
+  
   
   const [formData, setFormData] = useState({
-    title: 'I want to Donate blood',
-    amount: 1,
+    title: '',
+    amount: '',
     hospital: '',
     reason: '',
     contactPerson: data?.name,
     mobile: data?.mobile,
     district: data?.district,
     city: '',
-    donate:true,
     requested_by:data,
     user_id:data?._id
   });
@@ -51,28 +55,26 @@ const CreateRequestForm = () => {
       return 0;
     }
     setisLoading(true)
-    insertdata({
+    updateitem({
       data:{...formData,
       bg:selectedBloodGroup,
       requestDate:requestDate,
       district:district
       },
-      table:"blood_requests"}).then((res)=>{
+      table:"blood_requests",id:params?.item_id}).then((res)=>{
       console.log(res);
       setisLoading(false)
       if(res?.acknowledged){
-        setFormData({
-          title: '',
-          amount: '',
-          hospital: '',
-          reason: '',
-          contactPerson: data?.name,
-          mobile: data?.mobile,
-          district: data?.district,
-          city: '',
-          requested_by:data,
-          user_id:data?._id
-        })
+        // setFormData({
+        //   title: '',
+        //   amount: '',
+        //   hospital: '',
+        //   reason: '',
+        //   contactPerson: data?.name,
+        //   mobile: data?.mobile,
+        //   district: data?.district,
+        //   city: '',
+        // })
         return ToastAndroid.show("Success",ToastAndroid.SHORT)
       }
     })
@@ -93,6 +95,25 @@ const CreateRequestForm = () => {
 
   useEffect(() => {
     getDistricts()
+    const item_id = params?.item_id
+    getdata({query:{id:item_id},table:"blood_requests"}).then((res)=>{
+      console.log('res',res);
+      const data = res[0]
+      setSelectedBloodGroup(data?.bg)
+      setRequestDate(new Date(data?.requestDate))
+      setdistrict(data?.district)
+      setFormData({
+        title: data?.title,
+        amount: data?.amount,
+        hospital: data?.hospital,
+        reason: data?.reason,
+        contactPerson: data?.contactPerson,
+        mobile: data?.mobile,
+        district: data?.district,
+        city: data?.city,
+      })
+      
+    })
   }, []);
 
 
@@ -104,7 +125,7 @@ const CreateRequestForm = () => {
         <TouchableOpacity onPress={()=>router.back()}>
           <FontAwesome name="chevron-left" size={22} color="black" />
         </TouchableOpacity>
-        <Text className="text-lg font-semibold">Donation Form</Text>
+        <Text className="text-lg font-semibold">Edit Your Request</Text>
         <View />
       </View>
       <TextInput

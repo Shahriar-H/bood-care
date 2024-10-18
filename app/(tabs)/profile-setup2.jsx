@@ -181,7 +181,7 @@ export default function ProfileSetupScreen2() {
         // disabled={!isFormComplete}
         className={`py-2 rounded-lg ${gender&&donateBlood&&aboutYourself ? 'bg-red-500' : 'bg-red-200'}`}
       >
-        <Text className="text-center text-white font-bold text-lg">Next</Text>
+        <Text className="text-center text-white font-bold text-lg">Save</Text>
       </TouchableOpacity>
     </ScrollView>
   );

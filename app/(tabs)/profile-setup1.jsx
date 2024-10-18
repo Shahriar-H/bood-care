@@ -223,7 +223,7 @@ export default function ProfileSetupScreen1() {
         // disabled={!isFormComplete}
         onPress={profileHandle}
       >
-        <Text className="text-center text-white font-bold text-lg">Next</Text>
+        <Text className="text-center text-white font-bold text-lg">Save</Text>
       </TouchableOpacity>
     </View>
   );

@@ -6,6 +6,7 @@ import {useGetitems} from "../../hooks/useGetitem"
 import NoData from "../../components/my-comp/Nodata"
 import { Picker } from '@react-native-picker/picker';
 import moment from 'moment';
+import { useIsFocused } from '@react-navigation/native';
 
 const BloodDonationApp = () => {
     const router = useRouter()
@@ -19,7 +20,7 @@ const BloodDonationApp = () => {
     const [selectedBloodGroup, setSelectedBloodGroup] = useState('');
     const [searchword, setsearchword] = useState('');
     const [moresearchShow, setmoresearchShow] = useState(false);
-
+    const focused = useIsFocused()
 
     const getDistricts = ()=>{
         fetch("https://bdapis.com/api/v1.2/districts")
@@ -48,7 +49,7 @@ const BloodDonationApp = () => {
         }
         
         
-    }, [district]);
+    }, [district,focused]);
   return (<>
     
     <ScrollView className="bg-white">

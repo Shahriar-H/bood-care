@@ -5,10 +5,7 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal",
-      "android": {
-        "image": "ubuntu-18.04-jdk-11-ndk-r19c"
-      }
+      "distribution": "internal"
     },
     "preview": {
       "distribution": "internal"
