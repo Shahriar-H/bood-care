@@ -1,7 +1,7 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView, ToastAndroid, Image, RefreshControl } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView, ToastAndroid, Image, RefreshControl, ActivityIndicator } from 'react-native';
 import { AuthProvider } from '../_layout';
 import { useAdditem } from '../../hooks/useAdditem';
 import { useGetitems } from '../../hooks/useGetitem';
@@ -16,6 +16,7 @@ const NotificationScreen = () => {
   const {responsedata,insertdata} = useAdditem()
   const [notications, setnotications] = useState([]);
   const {responsedata:getres, getdata} = useGetitems()
+  const [isLoading, setisLoading] = useState(false);
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -30,11 +31,12 @@ const NotificationScreen = () => {
   }, []);
   
   const getinfo = ()=>{
+    setisLoading(true)
     getdata({query:{},table:"notifications"})
     .then((res)=>{
         setnotications(res)
         console.log(res[1]?.id);
-        
+        setisLoading(false)
     })
   }
 
@@ -65,6 +67,9 @@ const NotificationScreen = () => {
             className="w-24 h-24 rounded-full"
           />
         </View>}
+        {
+          isLoading&&<ActivityIndicator/>
+        }
 
         {
             notications&& notications.length>0 && notications.map((item, index)=>{

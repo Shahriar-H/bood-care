@@ -105,6 +105,7 @@ export default function LoginScreen() {
           onChangeText={(v)=>setformData({...formData,mobile:v})}
           value={formData?.mobile}
           placeholder="Type Number"
+          maxLength={11}
           keyboardType="phone-pad"
           className="w-full px-4 py-2 border border-gray-300 rounded-lg"
         />

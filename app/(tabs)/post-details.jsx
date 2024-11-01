@@ -19,6 +19,8 @@ const PostDetails = () => {
       }
       
       setrequestblooddata({...params?.params})
+      console.log(params?.params);
+      
     }, [focused]);
   return (
     <ScrollView className="bg-white p-4">

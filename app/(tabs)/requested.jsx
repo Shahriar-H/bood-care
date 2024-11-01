@@ -171,14 +171,14 @@ const BloodDonationApp = () => {
                 return <TouchableOpacity 
                 onPress={() => router.push({ pathname: "/post-details", params: item })} 
                 key={index} 
-                className="bg-gray-50 flex-row space-x-3 border border-gray-300 p-4 rounded-lg shadow-md mb-4">
-                <View className="w-[60px] bg-red-50 overflow-hidden h-[60px] border-2 border-red-500 rounded-full shadow-md items-center justify-center">
-                    <Text className="text-red-500 text-xl">{item?.bg??"0"}</Text>
+                className="bg-gray-50 flex-row space-x-3 border border-gray-300 p-2 items-center rounded-lg shadow-md mb-4">
+                <View className="w-[50px] bg-red-50 overflow-hidden h-[50px] border-2 border-red-500 rounded-full shadow-md items-center justify-center">
+                    <Text className="text-red-500 text-base">{item?.bg??"0"}</Text>
                 </View>
                 <View>
-                    <Text className="text-red-500 text-lg font-semibold">{item?.title}</Text>
-                    <Text className="text-sm text-gray-500"><FontAwesome name='map-marker' size={15} /> {item?.hospital}</Text>
-                    <Text className="text-sm text-gray-500"><FontAwesome name='clock-o' size={15} /> {item?.requestDate?moment(item?.requestDate).format('lll'):"As soon as Possible"}</Text>
+                    <Text className="text-red-500 text-base font-semibold">{item?.title}</Text>
+                    <Text className="text-xs text-gray-500"><FontAwesome name='map-marker' size={15} /> {item?.hospital}</Text>
+                    <Text className="text-xs text-gray-500"><FontAwesome name='clock-o' size={15} /> {item?.requestDate?moment(item?.requestDate).format('lll'):"As soon as Possible"}</Text>
                 </View>
             </TouchableOpacity>
             })}

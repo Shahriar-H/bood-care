@@ -9,6 +9,7 @@ import LoginComponent from "../../components/my-comp/Login"
 import { AuthProvider } from '../_layout';
 
 
+
 const slides = [
   {
     key: 1,
@@ -43,18 +44,16 @@ export default function HomeScreen() {
 
   setTimeout(() => {
     setisLoading(false)
-  }, 3000);
+  }, 5000);
 
   useEffect(() => {
     setdata(localdata)
-    
     
   }, [localdata]);
 
   const _renderItem = ({ item }) => {
     return (
       <View style={[styles.slide, { backgroundColor: item.backgroundColor }]}>
-        
         <Image className="w-[300px] h-[300px]" resizeMode='contain' source={item.image}  />
         <Text className="text-gray-700 text-xl font-bold mb-3">{item.title}</Text>
         <Text className="text-gray-400 text-center">{item.text}</Text>
@@ -66,11 +65,13 @@ export default function HomeScreen() {
     try {
       await AsyncStorage.setItem('intro', 'true');
     } catch (e) {
-      // saving error
       console.log(e);
-      
     }
   };
+
+  useEffect(() => {
+    
+  }, []);
 
  
 
@@ -99,7 +100,7 @@ export default function HomeScreen() {
 
   useEffect(() => {
     getIntroData()
-    console.log(introAlreadyFinished);
+    console.log('introAlreadyFinished',introAlreadyFinished);
     
   }, [introAlreadyFinished]);
 
@@ -120,7 +121,9 @@ export default function HomeScreen() {
       </View>
     );
   };
-  if(!introAlreadyFinished){
+
+  
+if(!data?.name&&!introAlreadyFinished){
     return (
       <AppIntroSlider
         renderItem={_renderItem}
@@ -134,15 +137,22 @@ export default function HomeScreen() {
     );
   }
   
-  if(!data?.name){
+  
+  else if(!data?.name&&introAlreadyFinished){
+
     return <View className="bg-white flex-1">
-      {isLoading?<ActivityIndicator/>:<LoginComponent/>}
+      <StatusBar barStyle={'dark-content'} animated />
+      <LoginComponent/>
     </View>
   }
   else if(data?.name&&introAlreadyFinished) {
     return <View className="bg-white">
-      <StatusBar barStyle={'dark-content'} animated />
+      <StatusBar barStyle={'dark-content'} backgroundColor={"#FFF6EE"} animated />
       <MainHome/>
+    </View>
+  }else{
+    return <View className="bg-white flex-1 items-center justify-center">
+      <Image className="w-[400px] h-[400px]" resizeMode='contain' source={require('../../assets/images/splash1.png')}  />
     </View>
   }
 }

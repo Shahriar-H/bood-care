@@ -1,12 +1,14 @@
 import { DarkTheme, DefaultTheme, ThemeProvider, useIsFocused } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
+// import * as SplashScreen from 'expo-splash-screen';
 import { createContext, useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import useSessionget from '../hooks/useSession'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { SplashScreen } from 'expo-router';
+
 
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -39,14 +41,16 @@ export default function RootLayout() {
     if(data?.name){
         setuserData(data)
         // dispatch({type:"login",payload:data})
+        // SplashScreen.hideAsync();
         setisLoading(false)
     }
   }, [data?.name,isFocused]);
 
-  const logoutFun = ()=>{
-      setuserData({})
+  setTimeout(() => {
+    SplashScreen.hideAsync();
+  }, 4000);
 
-  }
+  
   const removeStore = async () => {
     try {
       
@@ -58,9 +62,13 @@ export default function RootLayout() {
       
     }
   };
+  const logoutFun = ()=>{
+    setuserData({})
+    removeStore()
+  }
   const loginFun = (data)=>{
       setuserData(data)
-      removeStore()
+      // removeStore()
   }
 
 

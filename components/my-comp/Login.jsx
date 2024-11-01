@@ -4,6 +4,7 @@ import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
 import { AuthProvider } from '@/app/_layout';
 import { api_url } from '../../scripts/lib';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen() {
     const router = useRouter()
@@ -14,6 +15,8 @@ export default function LoginScreen() {
       try {
         const jsonValue = JSON.stringify(value);
         await AsyncStorage.setItem('user', jsonValue);
+        console.log("Saved On Local",value);
+        
         
       } catch (e) {
         // saving error
@@ -21,6 +24,11 @@ export default function LoginScreen() {
         
       }
     };
+
+    const getStore = async ()=>{
+      const d = await AsyncStorage.getItem("user")
+      console.log(d);
+    }
     const [formData, setformData] = useState({
       mobile:"",
       password:''
@@ -86,10 +94,7 @@ export default function LoginScreen() {
   return (
     <View className="flex-1 justify-center px-6 bg-white">
       
-      {/* Back Arrow */}
-      {/* <TouchableOpacity className="absolute top-10 left-4">
-        <FontAwesome name="chevron-left" size={22} color="gray" />
-      </TouchableOpacity> */}
+      
 
       {/* Welcome Text */}
       <View className="mb-8">
@@ -103,6 +108,7 @@ export default function LoginScreen() {
         <TextInput
           onChangeText={(v)=>setformData({...formData,mobile:v})}
           value={formData?.mobile}
+          maxLength={11}
           placeholder="Type Number"
           keyboardType="phone-pad"
           className="w-full px-4 py-2 border border-gray-300 rounded-lg"

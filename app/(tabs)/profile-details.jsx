@@ -144,7 +144,7 @@ const ProfileDetails = () => {
       {/* Profile Information */}
       {about&&<View className="bg-white rounded-lg shadow-md p-4 mb-6">
         {[
-          { label: 'Age', value: daysCount(userData?.dateOfBirth)+" days", icon: 'user' },
+          { label: 'Age', value: daysCount(userData?.dateOfBirth)/365+" Years", icon: 'user' },
           { label: 'Gender', value: userData?.gender, icon: 'mars' },
           { label: 'City', value: userData?.thana, icon: 'map-marker' },
           { label: 'District', value: userData?.district, icon: 'globe' },
@@ -185,11 +185,11 @@ const ProfileDetails = () => {
             {requestedData&&
             requestedData.length>0&&
             requestedData.map((item,index)=>{
-                if(index<=10){
+                if(true){
                 return <View 
                 
                 key={index} 
-                className="bg-gray-50 relative flex-row space-x-3 border border-gray-300 p-4 rounded-lg shadow-md mb-4">
+                className="bg-gray-50 relative flex-row space-x-3 border border-gray-300 p-2 items-center rounded-lg shadow-md mb-4">
                 {data?._id===userData?._id&&<>
                   {(!selectedid||(selectedid&&selectedid!==item?._id))&&<TouchableOpacity onPress={()=>setselectedid(item?._id)} className="absolute text-gray-300 right-1 z-50 top-1 p-3">
                     <FontAwesome name='ellipsis-v' color={'gray'} size={16} />
@@ -207,13 +207,13 @@ const ProfileDetails = () => {
                     <Text><FontAwesome name='trash' size={16} />  Delete</Text></TouchableOpacity>
                   </View>}
                 </>}
-                <View className="w-[60px] bg-red-50 overflow-hidden h-[60px] border-2 border-red-500 flex-row rounded-full shadow-md items-center justify-center">
-                    <Text className="text-red-500 text-xl">{item?.bg??"0"}</Text>
+                <View className="w-[50px] bg-red-50 overflow-hidden h-[50px] border-2 border-red-500 flex-row rounded-full shadow-md items-center justify-center">
+                    <Text className="text-red-500 text-base">{item?.bg??"0"}</Text>
                 </View>
                 <Pressable onPress={() => router.push({ pathname: "/post-details", params: {...item} })} >
-                    <Text className="text-red-500 text-lg font-semibold">{item?.title}</Text>
-                    <Text className="text-sm text-gray-500"><FontAwesome name='map-marker' size={15} /> {item?.hospital}</Text>
-                    <Text className="text-sm text-gray-500"><FontAwesome name='clock-o' size={15} /> {item?.requestDate?moment(item?.requestDate).format('lll'):"As soon as Possible"}</Text>
+                    <Text className="text-red-500 text-base font-semibold">{item?.title}</Text>
+                    <Text className="text-xs text-gray-500"><FontAwesome name='map-marker' size={15} /> {item?.hospital}</Text>
+                    <Text className="text-xs text-gray-500"><FontAwesome name='clock-o' size={15} /> {item?.requestDate?moment(item?.requestDate).format('lll'):"As soon as Possible"}</Text>
                 </Pressable>
             </View>}
             })}
