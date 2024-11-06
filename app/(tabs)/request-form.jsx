@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Button, Platform, ScrollView, ToastAndroid, BackHandler } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePickerAndroid from '@react-native-community/datetimepicker';
 import { FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAdditem } from '../../hooks/useAdditem';
@@ -11,8 +11,10 @@ const CreateRequestForm = () => {
   const {data} = useContext(AuthProvider)
   const [selectedBloodGroup, setSelectedBloodGroup] = useState('');
   const [requestDate, setRequestDate] = useState(new Date());
+  const [requesttime, setrequesttime] = useState(new Date());
   const {responsedata,insertdata} = useAdditem()
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showtimePicker, setshowtimePicker] = useState(false);
   const router = useRouter()
   const [allDistricts, setallDistricts] = useState([]);
   const [district, setdistrict] = useState(data?.district);
@@ -36,6 +38,13 @@ const CreateRequestForm = () => {
     setShowDatePicker(false);
     setRequestDate(currentDate);
   };
+  const onTimeChange = (event, selectedTime) => {
+    const currenttime = selectedTime || requesttime;
+    setshowtimePicker(false);
+    console.log(currenttime);
+    
+    setrequesttime(currenttime);
+  };
 
   const onHandleFoem = ()=>{
     let isEnputFilled=true;
@@ -54,6 +63,7 @@ const CreateRequestForm = () => {
       data:{...formData,
       bg:selectedBloodGroup,
       requestDate:requestDate,
+      requesttime:requesttime,
       district:district
       },
       table:"blood_requests"}).then((res)=>{
@@ -86,7 +96,7 @@ const CreateRequestForm = () => {
     .then((res)=>res.json())
     .then((res)=>{
       // console.log(res);
-      setallDistricts(res?.data)
+      setallDistricts(res?.data.sort())
     })
   }
 
@@ -164,11 +174,24 @@ const CreateRequestForm = () => {
       </TouchableOpacity>
 
       {showDatePicker && (
-        <DateTimePicker
+        <DateTimePickerAndroid
           value={requestDate}
           mode="date"
           display="default"
           onChange={onDateChange}
+        />
+      )}
+       {/* Date Picker */}
+      <TouchableOpacity onPress={() => setshowtimePicker(true)} className="border border-gray-300 p-4 mb-4 rounded">
+        <Text>{requesttime?.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
+      </TouchableOpacity>
+
+      {showtimePicker && (
+        <DateTimePickerAndroid
+          value={requesttime}
+          mode="time"
+          display="default"
+          onChange={onTimeChange}
         />
       )}
 

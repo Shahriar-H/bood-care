@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, ToastAndroid } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Image, ToastAndroid, BackHandler } from 'react-native';
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
 import { AuthProvider } from '@/app/_layout';
@@ -84,6 +84,23 @@ export default function LoginScreen() {
       
       
     }
+
+    useEffect(() => {
+      // Define the custom back handler
+      const backAction = () => {
+        router.push('/login'); // Navigate to the 'Another' screen
+        return true; // Return true to prevent the default back action
+      };
+  
+      // Add the event listener
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        backAction
+      );
+  
+      // Clean up the event listener on component unmount
+      return () => backHandler.remove();
+    }, [router]);
   return (
     <View className="flex-1 justify-center px-6 bg-white">
       
@@ -95,7 +112,7 @@ export default function LoginScreen() {
       {/* Welcome Text */}
       <View className="mb-8">
         <Text className="text-2xl font-bold text-black">Welcome to Blood Care!</Text>
-        <Text className="text-sm text-gray-500">Enter your email address and password to login</Text>
+        <Text className="text-sm text-gray-500">Enter your phone and password to login</Text>
       </View>
 
       {/* Mobile Input */}

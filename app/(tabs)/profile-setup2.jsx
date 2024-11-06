@@ -177,7 +177,7 @@ export default function ProfileSetupScreen2() {
       <View className="border border-gray-300 rounded-lg mb-4">
         <Picker
           selectedValue={donateBlood}
-          onValueChange={(itemValue) => setDonateBlood(itemValue === 'Yes')}
+          onValueChange={(itemValue) => setDonateBlood(itemValue)}
         >
           <Picker.Item label="Are you willing to donate blood?" value="" />
           <Picker.Item label="Yes" value="Yes" />

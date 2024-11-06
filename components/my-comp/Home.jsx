@@ -249,24 +249,24 @@ const MainHome = () => {
         <StatusBar />
         
       {/* Header */}
-      <View className="absolute h-[210px] w-full top-0 left-0 bg-[#FFF6EE]">
+      <View className="absolute h-[170px] w-full top-0 left-0 bg-[#FFF6EE]">
         <Text className="absolute text-[400px] -top-[350px] -right-[100] text-white">O</Text>
       </View>
      
       <View className="p-4">
-        <View className="flex-row items-center justify-between py-8">
-            <View className="flex-row items-center">
+        <View className="flex-row justify-between py-8">
+            <View className="flex-row ">
             {data?.image?<Image
                 source={{ uri: data?.image }} // Replace with actual user profile image
                 className="w-16 h-16 rounded-full "
-            />:<View className="w-20 h-20 rounded-full bg-red-300 text-gray-300 justify-center items-center">
-                    <FontAwesome name='user' size={45} color={'red'}  />
+            />:<View className="w-16 h-16 rounded-full bg-red-300 text-gray-300 justify-center items-center">
+                    <FontAwesome name='user' size={35} color={'red'}  />
                 </View>}
             <View className="ml-3">
                 <Text className="text-lg font-semibold">{data?.name}</Text>
                 <TouchableOpacity onPress={profileHandle} className="flex-row">
-                    <Text className="text-gray-400">Available ({data?.bloodGroup})·</Text>
-                    <View className={`bg-gray-300 p-1 w-10 flex justify-center ${data?.donateBlood?"items-end bg-green-500":"items-start"} rounded-full`}>
+                    <Text className="text-gray-400">Available ({data?.bloodGroup})</Text>
+                    <View className={`bg-gray-300 ml-3 p-1 w-10 flex justify-center ${data?.donateBlood?"items-end bg-green-500":"items-start"} rounded-full`}>
                         <View className="bg-white h-3 w-5 rounded-full"></View>
                     </View>
                 </TouchableOpacity>
@@ -288,7 +288,7 @@ const MainHome = () => {
                 <Text className="text-gray-400">Search Blood</Text>
             </View>
         </TouchableOpacity>
-        <View className="h-6"></View>
+        <View className="h-3"></View>
 
         
         <ScrollView className={`bg-white`} showsVerticalScrollIndicator={false} refreshControl={
@@ -388,7 +388,7 @@ const MainHome = () => {
                     <View>
                         <Text className="text-red-500 text-base font-semibold">{item?.title}</Text>
                         <Text className="text-xs text-gray-500"><FontAwesome name='map-marker' size={15} /> {item?.hospital}</Text>
-                        <Text className="text-xs text-gray-500"><FontAwesome name='clock-o' size={15} /> {item?.requestDate?moment(item?.requestDate).format('lll'):"As soon as Possible"}</Text>
+                        <Text className="text-xs text-gray-500"><FontAwesome name='clock-o' size={15} /> {item?.requestDate?moment(item?.requestDate).format('ll')+", "+moment(item?.requesttime).format('LT'):"As soon as Possible"}</Text>
                     </View>
                 </TouchableOpacity>}
                 })}

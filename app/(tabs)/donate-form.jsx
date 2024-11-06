@@ -87,7 +87,7 @@ const CreateRequestForm = () => {
     .then((res)=>res.json())
     .then((res)=>{
       // console.log(res);
-      setallDistricts(res?.data)
+      setallDistricts(res?.data.sort())
     })
   }
 

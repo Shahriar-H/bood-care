@@ -17,8 +17,10 @@ const PostDetails = () => {
       if(!params?.params?.bg){
         router.push("/profile")
       }
+      if(!params?.params?.fromprofile){
+        setrequestblooddata({...params?.params})
+      }
       
-      setrequestblooddata({...params?.params})
       console.log(params?.params);
       
     }, [focused]);
@@ -85,19 +87,19 @@ const PostDetails = () => {
           </View>
           <Text className="font-semibold">{requestblooddata?.hospital}</Text>
         </View>
-        <View className="flex-row hidden justify-between items-center mb-4">
+        <View className="flex-row justify-between items-center mb-4">
           <View className="flex-row items-center">
             <FontAwesome name="calendar-times-o" size={24} color="#f87171" />
-            <Text className="ml-4 text-gray-600">Posted @</Text>
+            <Text className="ml-4 text-gray-600">Posted </Text>
           </View>
-          <Text className="font-semibold">{moment(new Date(requestblooddata?.created_at)).format("lll")}</Text>
+          <Text className="font-semibold">{moment(Number(requestblooddata?.created_at)).fromNow()}</Text>
         </View>
         <View className="flex-row justify-between items-center">
           <View className="flex-row items-center">
             <FontAwesome name="calendar-o" size={24} color="#f87171" />
             <Text className="ml-4 text-gray-600">Needed @</Text>
           </View>
-          <Text className="font-semibold">{moment(new Date(requestblooddata?.requestDate)).format("lll")}</Text>
+          <Text className="font-semibold">{moment(requestblooddata?.requestDate).format('ll')+", "+moment(requestblooddata?.requesttime).format('LT')}</Text>
         </View>
       </View>
 

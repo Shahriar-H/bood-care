@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, ToastAndroid, Alert } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Image, ToastAndroid, Alert, BackHandler } from 'react-native';
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
 import { api_url } from '../../scripts/lib';
@@ -85,6 +85,23 @@ export default function Signup() {
     
     
   }
+
+  useEffect(() => {
+    // Define the custom back handler
+    const backAction = () => {
+      router.push('/login'); // Navigate to the 'Another' screen
+      return true; // Return true to prevent the default back action
+    };
+
+    // Add the event listener
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    // Clean up the event listener on component unmount
+    return () => backHandler.remove();
+  }, [router]);
  
   return (
     <View className="flex-1 justify-center px-6 bg-white">

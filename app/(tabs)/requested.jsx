@@ -27,7 +27,7 @@ const BloodDonationApp = () => {
         .then((res)=>res.json())
         .then((res)=>{
           // console.log(res);
-          setallDistricts(res?.data)
+          setallDistricts(res?.data.sort())
         })
       }
 
@@ -169,7 +169,7 @@ const BloodDonationApp = () => {
             .filter((item)=>(searchword?item?.title.includes(searchword):item))
             .map((item,index)=>{
                 return <TouchableOpacity 
-                onPress={() => router.push({ pathname: "/post-details", params: item })} 
+                onPress={() => router.push({ pathname: "/post-details", params: {...item,backroute:"requested"} })} 
                 key={index} 
                 className="bg-gray-50 flex-row space-x-3 border border-gray-300 p-2 items-center rounded-lg shadow-md mb-4">
                 <View className="w-[50px] bg-red-50 overflow-hidden h-[50px] border-2 border-red-500 rounded-full shadow-md items-center justify-center">
@@ -178,7 +178,7 @@ const BloodDonationApp = () => {
                 <View>
                     <Text className="text-red-500 text-base font-semibold">{item?.title}</Text>
                     <Text className="text-xs text-gray-500"><FontAwesome name='map-marker' size={15} /> {item?.hospital}</Text>
-                    <Text className="text-xs text-gray-500"><FontAwesome name='clock-o' size={15} /> {item?.requestDate?moment(item?.requestDate).format('lll'):"As soon as Possible"}</Text>
+                    <Text className="text-xs text-gray-500"><FontAwesome name='clock-o' size={15} /> {item?.requestDate?moment(item?.requestDate).format('ll')+", "+moment(item?.requesttime).format('LT'):"As soon as Possible"}</Text>
                 </View>
             </TouchableOpacity>
             })}
@@ -196,7 +196,7 @@ const BloodDonationApp = () => {
             .filter((item)=>(searchword?item?.name.includes(searchword):item))
             .map((item,index)=>{
                 return <TouchableOpacity 
-                onPress={() => router.push({ pathname: "/post-details", params: item })} 
+                onPress={() => router.push({ pathname: "/profile-details", params: {user_id:item?._id,backroute:'requested'} })} 
                 key={index} 
                 className="bg-gray-50 flex-row space-x-3 border border-gray-300 p-4 rounded-lg shadow-md mb-4">
                 <View className="w-[60px] bg-red-50 overflow-hidden h-[60px] border-2 border-red-500 rounded-full shadow-md items-center justify-center">

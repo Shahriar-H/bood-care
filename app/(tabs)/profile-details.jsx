@@ -41,7 +41,7 @@ const ProfileDetails = () => {
         
         router.push(params?.backroute)
       }else{
-        router.push({pathname:"/post-details",params:{...userDataString,requested_by:JSON.stringify(userDataString?.requested_by)}})
+        router.push({pathname:"/post-details",params:{...userDataString,fromprofile:true,requested_by:JSON.stringify(userDataString?.requested_by)}})
 
       }
     }
@@ -118,7 +118,8 @@ const ProfileDetails = () => {
             <FontAwesome name='user' size={44} color={'red'} />
         </View>}
         <Text className="text-xl font-semibold">{userData?.name}</Text>
-        <Text className="text-gray-500">{userData?.bloodGroup} Blood</Text>
+        <Text className="text-gray-500">{userData?.bloodGroup}</Text>
+        <Text className={`${userData?.donateBlood?"text-green-500":"text-red-500"}`}>{userData?.donateBlood?"Available to Donate":"Not Available"}</Text>
       </View>
 
       {/* Buttons */}
@@ -126,8 +127,8 @@ const ProfileDetails = () => {
         <TouchableOpacity className="bg-red-500 hidden py-2 px-6 rounded-full">
           <Text className="text-white">Chat Now</Text>
         </TouchableOpacity>
-        <Link href={"tel:"+userData?.contact} className="border border-red-500 text-center w-1/2 py-2 px-6 rounded-full">
-          <Text className="text-red-500 text-center">Call me</Text>
+        <Link href={"tel:"+userData?.contact} className="border border-red-700 bg-red-100 text-center w-1/2 py-2 px-6 rounded-full">
+          <Text className="text-red-700 text-center">Call me</Text>
         </Link>
       </View>
 
@@ -144,7 +145,7 @@ const ProfileDetails = () => {
       {/* Profile Information */}
       {about&&<View className="bg-white rounded-lg shadow-md p-4 mb-6">
         {[
-          { label: 'Age', value: daysCount(userData?.dateOfBirth)/365+" Years", icon: 'user' },
+          { label: 'Age', value: daysCount(userData?.dateOfBirth)/365>=1?Math.round(daysCount(userData?.dateOfBirth)/365)+" Years":daysCount(userData?.dateOfBirth)+" Days", icon: 'user' },
           { label: 'Gender', value: userData?.gender, icon: 'mars' },
           { label: 'City', value: userData?.thana, icon: 'map-marker' },
           { label: 'District', value: userData?.district, icon: 'globe' },
@@ -189,8 +190,17 @@ const ProfileDetails = () => {
                 return <View 
                 
                 key={index} 
-                className="bg-gray-50 relative flex-row space-x-3 border border-gray-300 p-2 items-center rounded-lg shadow-md mb-4">
+                className="bg-gray-50 relative flex-row space-x-3 border border-gray-300 p-2 items-center rounded-lg shadow-md mb-4  z-100">
                 {data?._id===userData?._id&&<>
+                  
+                  {selectedid&&selectedid===item?._id&&
+                  <View className="absolute right-8 top-0 border z-50 bg-white p-3 py-2 rounded-md border-gray-300" style={{elevation:3,zIndex:1000}}>
+                    <Link href={'/request-form-edit?item_id='+item?._id} className='text-gray-500 py-2'>
+                    <FontAwesome name='edit' size={16} /> Edit</Link>
+                    <TouchableOpacity onPress={()=>deleteData(item?._id)} className='text-gray-500 py-2'>
+                    <Text><FontAwesome name='trash' size={16} />  Delete</Text></TouchableOpacity>
+                  </View>}
+
                   {(!selectedid||(selectedid&&selectedid!==item?._id))&&<TouchableOpacity onPress={()=>setselectedid(item?._id)} className="absolute text-gray-300 right-1 z-50 top-1 p-3">
                     <FontAwesome name='ellipsis-v' color={'gray'} size={16} />
                   </TouchableOpacity>}
@@ -199,15 +209,9 @@ const ProfileDetails = () => {
                     <FontAwesome name='times' color={'red'} size={16} />
                   </TouchableOpacity>}
                 
-                  {selectedid&&selectedid===item?._id&&
-                  <View className="absolute right-8 top-5 border z-[5000] bg-white p-3 rounded-md border-gray-300" style={{elevation:2}}>
-                    <Link href={'/request-form-edit?item_id='+item?._id} className='text-gray-500 py-2'>
-                    <FontAwesome name='edit' size={16} /> Edit</Link>
-                    <TouchableOpacity onPress={()=>deleteData(item?._id)} className='text-gray-500 py-2'>
-                    <Text><FontAwesome name='trash' size={16} />  Delete</Text></TouchableOpacity>
-                  </View>}
+                
                 </>}
-                <View className="w-[50px] bg-red-50 overflow-hidden h-[50px] border-2 border-red-500 flex-row rounded-full shadow-md items-center justify-center">
+                <View className="w-[50px] bg-red-50 overflow-hidden z-0 h-[50px] border-2 border-red-500 flex-row rounded-full shadow-md items-center justify-center">
                     <Text className="text-red-500 text-base">{item?.bg??"0"}</Text>
                 </View>
                 <Pressable onPress={() => router.push({ pathname: "/post-details", params: {...item} })} >

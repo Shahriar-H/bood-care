@@ -50,7 +50,7 @@ const PrivacyPolicy = () => {
           When you use our Blood Donation App, we may collect the following types of information:
         </Text>
         <Text className="text-sm text-gray-600 mt-2">
-          • <Text className="font-bold">Personal Information:</Text> Your name, contact details (phone number, email), blood group, and donation history.
+          • <Text className="font-bold">Personal Information:</Text> Your name, contact details (phone number), blood group, and donation history.
         </Text>
         <Text className="text-sm text-gray-600 mt-2">
           • <Text className="font-bold">Location Data:</Text> Your approximate or exact location to find nearby donors or donation camps (with your consent).
