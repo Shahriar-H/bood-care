@@ -77,7 +77,7 @@ const BloodDonationApp = () => {
       
 
       <View className="absolute top-14 left-4 flex flex-row items-center">
-        <TouchableOpacity onPress={()=>router.back()} className="text-gray-600">
+        <TouchableOpacity  onPress={()=>router.back()} className="text-gray-600">
             <FontAwesome name="chevron-left" size={20} /></TouchableOpacity>
         <View className="w-full text-center">
             <Text className="text-xl font-bold  pl-24 text-gray-600">{donnerTypeReq?'Blood Requested':"Available Donners"}</Text>

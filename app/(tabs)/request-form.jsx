@@ -127,7 +127,7 @@ const CreateRequestForm = () => {
     <ScrollView className="p-4 bg-white">
       {/* Post Title */}
       <View className="flex-row items-center justify-between my-10">
-        <TouchableOpacity onPress={()=>router.push("profile")}>
+        <TouchableOpacity className="px-2" onPress={()=>router.push("profile")}>
           <FontAwesome name="chevron-left" size={22} color="black" />
         </TouchableOpacity>
         <Text className="text-lg font-semibold">Make a Request</Text>

@@ -118,7 +118,7 @@ export default function ProfileSetupScreen2() {
     <ScrollView className="flex-1 bg-white px-6 py-4">
       {/* Back Arrow */}
       <View className="flex-row justify-between items-center right-4">
-        <TouchableOpacity onPress={()=>router.push("profile-setup1")} className=" top-10 left-4">
+        <TouchableOpacity  onPress={()=>router.push("profile-setup1")} className=" top-10 left-4">
           <FontAwesome name="chevron-left" size={24} color="gray" />
         </TouchableOpacity>
         <TouchableOpacity onPress={()=>router.push("profile-setup3")} className=" top-10 left-4">

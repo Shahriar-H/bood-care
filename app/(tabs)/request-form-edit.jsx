@@ -155,7 +155,7 @@ const CreateRequestForm = () => {
     <ScrollView className="p-4 bg-white">
       {/* Post Title */}
       <View className="flex-row items-center justify-between my-10">
-        <TouchableOpacity onPress={()=>router.back()}>
+        <TouchableOpacity className="px-2" onPress={()=>router.back()}>
           <FontAwesome name="chevron-left" size={22} color="black" />
         </TouchableOpacity>
         <Text className="text-lg font-semibold">Edit Your Request</Text>

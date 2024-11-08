@@ -150,10 +150,6 @@ if(!data?.name&&!introAlreadyFinished){
       <StatusBar barStyle={'dark-content'} backgroundColor={"#FFF6EE"} animated />
       <MainHome/>
     </View>
-  }else{
-    return <View className="bg-white flex-1 items-center justify-center">
-      <Image className="w-[400px] h-[400px]" resizeMode='contain' source={require('../../assets/images/splash1.png')}  />
-    </View>
   }
 }
 

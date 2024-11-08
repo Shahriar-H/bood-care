@@ -12,7 +12,7 @@ export default function Forgotpassword() {
 
   const handlSendMesssage = ()=>{
     if(!mobile){
-      ToastAndroid.show("Enter Number", ToastAndroid.SHORT)
+      return ToastAndroid.show("Enter Number", ToastAndroid.SHORT)
     }
     console.log(mobile);
     

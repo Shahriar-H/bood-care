@@ -27,7 +27,7 @@ const PrivacyPolicy = () => {
     <ScrollView className="p-4 bg-white">
       {/* Header */}
       <View className="flex-row items-center justify-between my-10">
-        <TouchableOpacity onPress={()=>router.push("/settings")}>
+        <TouchableOpacity className="px-2" onPress={()=>router.push("/settings")}>
           <FontAwesome name="chevron-left" size={22} color="black" />
         </TouchableOpacity>
         <Text className="text-lg font-semibold">Privacy Policy</Text>

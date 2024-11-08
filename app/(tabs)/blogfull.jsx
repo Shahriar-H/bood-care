@@ -32,7 +32,7 @@ const BlogShowScreen = () => {
     <ScrollView className="bg-white p-4">
       {/* Header */}
       <View className="flex-row items-center justify-between my-10">
-        <TouchableOpacity onPress={()=>router.push("/blog")}>
+        <TouchableOpacity className="px-2" onPress={()=>router.push("/blog")}>
           <FontAwesome name="chevron-left" size={22} color="black" />
         </TouchableOpacity>
         <Text className="text-lg font-semibold">Blog</Text>

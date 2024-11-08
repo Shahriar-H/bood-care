@@ -63,7 +63,7 @@ const SettingsScreen = () => {
   return (
     <ScrollView className="flex-1 bg-white">
       <View className="flex-row items-center justify-between my-20 px-4">
-        <TouchableOpacity onPress={()=>router.push("/profile")}>
+        <TouchableOpacity className="px-2" onPress={()=>router.push("/profile")}>
           <FontAwesome name="chevron-left" size={22} color="black" />
         </TouchableOpacity>
         <Text className="text-lg font-bold">Settings</Text>
@@ -77,6 +77,8 @@ const SettingsScreen = () => {
       
      
       <SettingItem label="Privacy Policy" iconColor="pink" name={'shield'} clickevent={()=>routHandle("/privacypolicy")} />
+
+      <SettingItem label="Change Password" iconColor="blue" name={'lock'} clickevent={()=>routHandle("/change-password")} />
      
       {/* <SettingItem label="Share App" iconColor="gray" name={'share'} /> */}
       <SettingItem label="Delete Account" iconColor="green" name={'trash'} clickevent={()=>routHandle("/delete_account")} />

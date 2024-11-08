@@ -28,7 +28,7 @@ const PostDetails = () => {
     <ScrollView className="bg-white p-4">
       {/* Header */}
       <View className="flex-row items-center justify-between my-8">
-        <TouchableOpacity onPress={()=>router.push(d?.backroute??"/")}>
+        <TouchableOpacity className="px-2" onPress={()=>router.push(d?.backroute??"/")}>
           <FontAwesome name="chevron-left" size={22} color="black" />
         </TouchableOpacity>
         <Text className="text-lg font-bold">Post Details</Text>

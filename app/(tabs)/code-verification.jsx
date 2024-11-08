@@ -27,7 +27,7 @@ export default function VerificationScreen() {
   return (
     <View className="flex-1 px-6 bg-white">
       {/* Back Arrow */}
-      <TouchableOpacity className="absolute top-14 left-4 flex flex-row items-center">
+      <TouchableOpacity className="absolute top-14 left-4 px-2 flex flex-row items-center">
         <Link href={'/signup'} className="text-gray-600"><FontAwesome name="chevron-left" size={20} /></Link>
         <View className="w-full text-center">
             <Text className="text-xl font-bold text-center text-gray-600">Verification Code</Text>
