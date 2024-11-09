@@ -324,14 +324,14 @@ const MainHome = () => {
                     <FontAwesome name="heartbeat" size={44} color="red" />
                     <View>
                         <Text className="text-red-500 font-semibold">Donner Post</Text>
-                        <Text className="text-sm">{countInfo?.donatepost} post</Text>
+                        <Text className="text-sm text-gray-500">{countInfo?.donatepost} post</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>router.push("/requested")} className="bg-gray-50 p-3 rounded-lg flex-row items-center space-x-3 shadow-md w-[48%] border border-gray-300">
                     <Entypo name='battery' color={'red'} size={40} />
                     <View>
                         <Text className="text-red-500 font-semibold">To Receive</Text>
-                        <Text className="text-sm">{countInfo?.requestpost} post</Text>
+                        <Text className="text-sm text-gray-500">{countInfo?.requestpost} post</Text>
                     </View>
                 </TouchableOpacity>
 
@@ -339,7 +339,7 @@ const MainHome = () => {
                     <FontAwesome name="pencil-square" size={40} color="red" />
                     <View>
                         <Text className="text-red-500 font-semibold">Create Post</Text>
-                        <Text className="text-sm">It's Easy 1 Step</Text>
+                        <Text className="text-sm text-gray-500">It's Easy 1 Step</Text>
                     </View>
                 </TouchableOpacity>
             
@@ -348,7 +348,7 @@ const MainHome = () => {
                     <FontAwesome name="gift" size={40} color="red" />
                     <View>
                         <Text className="text-red-500 font-semibold">Donate Blood</Text>
-                        <Text className="text-sm">It's Easy 1 Step</Text>
+                        <Text className="text-sm text-gray-500">It's Easy 1 Step</Text>
                     </View>
                 </TouchableOpacity>
                 </View>

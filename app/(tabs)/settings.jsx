@@ -35,9 +35,9 @@ const SettingsScreen = () => {
   const router = useRouter()
   const {logoutFun} = useContext(AuthProvider)
   const logouthandle = async ()=>{
-    logoutFun()
     AsyncStorage.removeItem('user')
     AsyncStorage.removeItem('intro')
+    logoutFun()
     router.push("/login")
   }
   const routHandle = (path)=>{

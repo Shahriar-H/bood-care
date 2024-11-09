@@ -70,6 +70,7 @@ export default function HomeScreen() {
   };
 
   useEffect(() => {
+    console.log(data?.name&&introAlreadyFinished,data?.name,introAlreadyFinished);
     
   }, []);
 
@@ -130,22 +131,23 @@ if(!data?.name&&!introAlreadyFinished){
         data={slides}
         onDone={_onDone}
         activeDotStyle={{backgroundColor:"red"}}
-        // renderDoneButton={_renderDoneButton}
         renderNextButton={_renderNextButton}
+        renderDoneButton={_renderDoneButton}
         bottomButton={true}
       />
     );
   }
   
   
-  else if(!data?.name&&introAlreadyFinished){
+  if(!data?.name&&introAlreadyFinished){
 
     return <View className="bg-white flex-1">
       <StatusBar barStyle={'dark-content'} animated />
       <LoginComponent/>
     </View>
   }
-  else if(data?.name&&introAlreadyFinished) {
+
+  if(true) {
     return <View className="bg-white">
       <StatusBar barStyle={'dark-content'} backgroundColor={"#FFF6EE"} animated />
       <MainHome/>

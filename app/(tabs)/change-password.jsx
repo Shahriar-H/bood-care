@@ -68,11 +68,12 @@ export default function Forgotpassword() {
         setnewpassword('')
         setprevpassword('')
         setisprevTrue(false)
-        return ToastAndroid.show("Changing Success", ToastAndroid.SHORT)
+        ToastAndroid.show("Changing Success", ToastAndroid.SHORT)
+        return router.push("/")
       }
       
-      return ToastAndroid.show("Changing Failed", ToastAndroid.SHORT)
-      console.log(result);
+      ToastAndroid.show("Changing Failed", ToastAndroid.SHORT)
+      
       
       
       
