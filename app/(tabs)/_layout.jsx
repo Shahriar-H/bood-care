@@ -16,12 +16,12 @@ export default function TabLayout() {
 
   const getData = async ()=>{
     const data = await getDataFromLocalstorage('user')
-    console.log("local-",data);
+    // console.log("local-",data);
   }
 
   useEffect(() => {
     getData()
-    console.log('router',router);
+    // console.log('router',router);
     
   }, []);
 

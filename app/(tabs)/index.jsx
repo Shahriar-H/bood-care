@@ -65,12 +65,12 @@ export default function HomeScreen() {
     try {
       await AsyncStorage.setItem('intro', 'true');
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   };
 
   useEffect(() => {
-    console.log(data?.name&&introAlreadyFinished,data?.name,introAlreadyFinished);
+    // console.log(data?.name&&introAlreadyFinished,data?.name,introAlreadyFinished);
     
   }, []);
 

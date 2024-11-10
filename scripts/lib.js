@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const api_url = 'https://bloodapi.vercel.app'
+export const api_url = 'https://blood-api.bloodmate.org'
+// export const api_url = 'https://bloodapi.vercel.app'
 // export const api_url = 'http://192.168.0.110:4430'
 export const post_option = {
     method:"POST",

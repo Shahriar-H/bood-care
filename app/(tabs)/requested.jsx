@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ScrollView, Text, View, Image, TextInput, TouchableOpacity, ActivityIndicator, BackHandler } from 'react-native';
 import { Feather, FontAwesome } from '@expo/vector-icons'; // For icons
-import { Link, useRouter } from 'expo-router';
+import { Link, useGlobalSearchParams, useLocalSearchParams, useRouter } from 'expo-router';
 import {useGetitems} from "../../hooks/useGetitem"
 import NoData from "../../components/my-comp/Nodata"
 import { Picker } from '@react-native-picker/picker';
 import moment from 'moment';
 import { useIsFocused } from '@react-navigation/native';
+import { AuthProvider } from '../_layout';
 
 const BloodDonationApp = () => {
     const router = useRouter()
-    const [donnerTypeReq, setdonnerTypeReq] = useState(true);
+    
     const {responsedata,getdata} = useGetitems()
     const [requestedData, setrequestedData ] = useState([]);
     const [isLoading, setisLoading] = useState(false);
@@ -21,6 +22,22 @@ const BloodDonationApp = () => {
     const [searchword, setsearchword] = useState('');
     const [moresearchShow, setmoresearchShow] = useState(false);
     const focused = useIsFocused()
+    const querypath = useLocalSearchParams()
+    const {data} = useContext(AuthProvider)
+    const [donnerTypeReq, setdonnerTypeReq] = useState(true);
+
+    useEffect(() => {
+        setdistrict(data?.district)
+        
+        setdonnerTypeReq(Boolean(querypath?.donner))
+        if(querypath?.donner==='false'){
+            setdonnerTypeReq(false)
+        }else{
+            setdonnerTypeReq(true)
+        }
+       
+        
+    }, [focused]);
 
     const getDistricts = ()=>{
         fetch("https://bdapis.com/api/v1.2/districts")
@@ -36,20 +53,24 @@ const BloodDonationApp = () => {
         setisLoading(true)
         if(donnerTypeReq){
             getdata({query:{district},table:"blood_requests"}).then((res)=>{
-                console.log(res);
+                // console.log(res);
                 setrequestedData(res)
                 setisLoading(false)
             })
         }else{
             getdata({query:{district:district},table:"users"}).then((res)=>{
-                console.log(res);
+                // console.log(res);
                 setavailableDoner(res)
                 setisLoading(false)
             })
         }
         
+       
         
-    }, [district,focused]);
+        
+    }, [district,focused,donnerTypeReq]);
+
+    
 
     useEffect(() => {
         // Define the custom back handler
@@ -67,14 +88,15 @@ const BloodDonationApp = () => {
         // Clean up the event listener on component unmount
         return () => backHandler.remove();
     }, [router]);
+
+    useEffect(() => {
+        setsearchword('')
+
+    }, [donnerTypeReq]);
   return (<>
     
     <ScrollView className="bg-white">
       {/* Header */}
-
-      
-    
-      
 
       <View className="absolute top-14 left-4 flex flex-row items-center">
         <TouchableOpacity  onPress={()=>router.back()} className="text-gray-600">
@@ -96,12 +118,13 @@ const BloodDonationApp = () => {
         <View className="mt-5 relative">
             <TextInput
             onChangeText={setsearchword}
+            value={searchword}
             placeholder="Search Blood"
             className="bg-white border px-4 py-3 rounded-md border-gray-300"
             />
-            <View className="absolute right-2 top-4">
-                <Text>{selectedBloodGroup}</Text>
-            </View>
+            <TouchableOpacity onPress={()=>setmoresearchShow((prev)=>!prev)} className="absolute bg-gray-200 p-2 right-2 top-2">
+                {selectedBloodGroup?<Text>{selectedBloodGroup}</Text>:<Text>All</Text>}
+            </TouchableOpacity>
         </View>
 
         {moresearchShow&&<View className="bg-white w-full rounded-md">
@@ -198,14 +221,14 @@ const BloodDonationApp = () => {
                 return <TouchableOpacity 
                 onPress={() => router.push({ pathname: "/profile-details", params: {user_id:item?._id,backroute:'requested'} })} 
                 key={index} 
-                className="bg-gray-50 flex-row space-x-3 border border-gray-300 p-4 rounded-lg shadow-md mb-4">
-                <View className="w-[60px] bg-red-50 overflow-hidden h-[60px] border-2 border-red-500 rounded-full shadow-md items-center justify-center">
-                    <Text className="text-red-500 text-xl">{item?.bloodGroup??"0"}</Text>
+                className="bg-gray-50 flex-row space-x-3 border border-gray-300 p-2 items-center rounded-lg shadow-md mb-4">
+                <View className="w-[50px] bg-red-50 overflow-hidden h-[50px] border-2 border-red-500 rounded-full shadow-md items-center justify-center">
+                    <Text className="text-red-500 text-base">{item?.bloodGroup??"0"}</Text>
                 </View>
                 <View>
-                    <Text className="text-red-500 text-lg font-semibold">{item?.name}</Text>
-                    <Text className="text-sm text-gray-500"><FontAwesome name='map-marker' size={15} /> {item?.thana} | {item?.district}</Text>
-                    <Text className="text-sm text-gray-500"><FontAwesome name='circle' color={'green'} size={12} /> {item?.donateBlood?"Available":"Not Available"}</Text>
+                    <Text className="text-red-500 text-base font-semibold">{item?.name}</Text>
+                    <Text className="text-xs text-gray-500"><FontAwesome name='map-marker' size={15} /> {item?.thana} | {item?.district}</Text>
+                    <Text className="text-xs text-gray-500"><FontAwesome name='circle' color={'green'} size={12} /> {item?.donateBlood?"Available":"Not Available"}</Text>
                 </View>
             </TouchableOpacity>
             })}

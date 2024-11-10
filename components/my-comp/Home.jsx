@@ -44,7 +44,7 @@ const MainHome = () => {
         setisLoading(true)
         setstatusbg('#FFF6EE')
         getdata({query:{},limit:10,table:"blood_requests"}).then((res)=>{
-            console.log(res[0]);
+            // console.log(res[0]);
             setrequestedData(res)
             setisLoading(false)
         })
@@ -140,12 +140,12 @@ const MainHome = () => {
         calculateinfo()
         setisLoading(true)
         getdata({query:{},table:"blood_requests"}).then((res)=>{
-            console.log(res);
+            // console.log(res);
             setrequestedData(res)
             setisLoading(false)
         })
         getdata({query:{},table:"stats"}).then((res)=>{
-            console.log('Contibition',res[0]);
+            // console.log('Contibition',res[0]);
             setcontributions(res[0])
             setisLoading(false)
         })
@@ -168,7 +168,7 @@ const MainHome = () => {
           })
           .then((res)=>res.json())
           .then(async(res)=>{
-            console.log(res?.result);
+            // console.log(res?.result);
             setisLoading(false)
             if(res.status!==200){
               return ToastAndroid.show(res?.message,ToastAndroid.LONG)
@@ -183,7 +183,7 @@ const MainHome = () => {
     
           })
         } catch (error) {
-          console.log(error);
+        //   console.log(error);
           
         }
       }
@@ -201,7 +201,7 @@ const MainHome = () => {
         
             // Display a notification
             await notifee.displayNotification({
-            title: 'Blood Care',
+            title: 'Blood Mate',
             body: message,
             android: {
                 channelId,
@@ -320,14 +320,14 @@ const MainHome = () => {
             <View className="mt-6">
                 <Text className="text-lg font-semibold">Activity As</Text>
                 <View className="flex-row flex-wrap justify-between mt-4">
-                <TouchableOpacity onPress={()=>router.push("/requested")} className="bg-gray-50 p-3 rounded-lg flex-row items-center space-x-3 shadow-md w-[48%] border border-gray-300">
+                <TouchableOpacity onPress={()=>router.push({pathname:"/requested",params:{donner:true}})} className="bg-gray-50 p-3 rounded-lg flex-row items-center space-x-3 shadow-md w-[48%] border border-gray-300">
                     <FontAwesome name="heartbeat" size={44} color="red" />
                     <View>
                         <Text className="text-red-500 font-semibold">Donner Post</Text>
                         <Text className="text-sm text-gray-500">{countInfo?.donatepost} post</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>router.push("/requested")} className="bg-gray-50 p-3 rounded-lg flex-row items-center space-x-3 shadow-md w-[48%] border border-gray-300">
+                <TouchableOpacity onPress={()=>router.push({pathname:"/requested",params:{donner:false},})} className="bg-gray-50 p-3 rounded-lg flex-row items-center space-x-3 shadow-md w-[48%] border border-gray-300">
                     <Entypo name='battery' color={'red'} size={40} />
                     <View>
                         <Text className="text-red-500 font-semibold">To Receive</Text>

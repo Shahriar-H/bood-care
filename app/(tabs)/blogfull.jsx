@@ -7,7 +7,7 @@ import { View, Text, Image, ScrollView, TouchableOpacity, BackHandler } from 're
 const BlogShowScreen = () => {
     const router = useRouter()
     const params = useLocalSearchParams()
-    console.log(params);
+    // console.log(params);
 
     useEffect(() => {
       // Define the custom back handler

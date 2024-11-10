@@ -115,7 +115,7 @@ export default function LoginScreen() {
 
       {/* Welcome Text */}
       <View className="mb-8">
-        <Text className="text-2xl font-bold text-black">Welcome to Blood Care!</Text>
+        <Text className="text-2xl font-bold text-black">Welcome to Blood Mate!</Text>
         <Text className="text-sm text-gray-500">Enter your phone and password to login</Text>
       </View>
 
